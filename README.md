@@ -20,6 +20,7 @@ Using **AWS EKS**, this architecture is containerized for scalability, high avai
 
 ### 1. Create and Connect to an EC2 Instance
 To interact with AWS services, set up and Launch an EC2 instance that acts as your control plane.
+
 ---
 
 ### 2. Install Required Tools in EC2 Instance
@@ -60,18 +61,17 @@ The following tools are installed to facilitate interactions with AWS services a
 Application components are containerized into Docker images. These images are pushed to **AWS Elastic Container Registry (ECR)**, a managed Docker image repository service.Build and Push your Docker Image for both Frontend and Backend
 
   ```bash
-    # Authenticate Docker with ECR
-    aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <account-id>.dkr.ecr.<region>.amazonaws.com
-    
-    # Build your Docker Image
-    docker push -t <your App Name?
-    
-    # After the build completes, tag your Image
-    docker tag <image-name>:latest <account-id>.dkr.ecr.<region>.amazonaws.com/<repo-name>:latest
-    
-    #Push your Image into ECR
-    docker push <account-id>.dkr.ecr.<region>.amazonaws.com/<repo-name>:latest
-  
+  # Authenticate Docker with ECR
+  aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <account-id>.dkr.ecr.<region>.amazonaws.com
+      
+  # Build your Docker Image
+  docker push -t <your App Name?
+      
+  # After the build completes, tag your Image
+  docker tag <image-name>:latest <account-id>.dkr.ecr.<region>.amazonaws.com/<repo-name>:latest
+      
+  #Push your Image into ECR
+  docker push <account-id>.dkr.ecr.<region>.amazonaws.com/<repo-name>:latest
   ```
 ---
 
