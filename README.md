@@ -19,7 +19,8 @@ Using **AWS EKS**, this architecture is containerized for scalability, high avai
 
 ---
 
-## Steps Involved
+## Steps for deployment
+
 
 ### 1. Create and Connect to an EC2 Instance
 To interact with AWS services, set up and Launch an EC2 instance that acts as your control plane.
