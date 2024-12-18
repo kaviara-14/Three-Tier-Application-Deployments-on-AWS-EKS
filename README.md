@@ -1,7 +1,7 @@
 # Deployed a Three-Tier Application on AWS EKS
 
 
-Developed and deployed a scalable three-tier application architecture on AWS Elastic Kubernetes Service (EKS). This involved building and containerizing application components with Docker and storing the images in AWS Elastic Container Registry (ECR).And I also managed Kubernetes workloads efficiently using eksctl and kubectl. Additionally, I configured IAM roles, set up an OIDC provider, and integrated the AWS Load Balancer Controller to ensure secure and high-availability traffic management.
+Developed and deployed a scalable three-tier application architecture on AWS Elastic Kubernetes Service (EKS). The process includes setting up a Kubernetes cluster on AWS, creating Docker images for the front-end and back-end services, deploying MongoDB on EKS.Ans  Additionally, I configured IAM roles, set up an OIDC provider, and integrated the AWS Load Balancer Controller to ensure secure and high-availability traffic management.. The final setup enables seamless communication between the components, making the application accessible via a domain name configured with an Application Load Balancer (ALB).
 
 ![image](https://github.com/user-attachments/assets/c7c10804-a34c-4bd7-a2f6-771879263761)
 
@@ -150,5 +150,6 @@ The **AWS Load Balancer Controller** is installed to manage and provision AWS lo
 
  ```
 ![image](https://github.com/user-attachments/assets/67c77f1b-f658-49d7-abec-83ce5e84f21d)
+![image](https://github.com/user-attachments/assets/a74cfdc8-5f75-420d-8caf-471390215ee5)
 
 ---
