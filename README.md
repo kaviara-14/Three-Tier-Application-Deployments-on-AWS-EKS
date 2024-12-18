@@ -3,9 +3,9 @@
 
 Developed and deployed a scalable three-tier application architecture on AWS Elastic Kubernetes Service (EKS). This involved building and containerizing application components with Docker and storing the images in AWS Elastic Container Registry (ECR).And I also managed Kubernetes workloads efficiently using eksctl and kubectl. Additionally, I configured IAM roles, set up an OIDC provider, and integrated the AWS Load Balancer Controller to ensure secure and high-availability traffic management.
 
----
+![image](https://github.com/user-attachments/assets/c7c10804-a34c-4bd7-a2f6-771879263761)
 
-![image](https://github.com/user-attachments/assets/10ae803b-d9c7-4921-bbc8-46bbbbb429a8)
+---
 
 ## Project Overview
 
@@ -76,6 +76,8 @@ Application components are containerized into Docker images. These images are pu
   #Push your Image into ECR
   docker push <account-id>.dkr.ecr.<region>.amazonaws.com/<repo-name>:latest
   ```
+![image](https://github.com/user-attachments/assets/38cca81c-7451-4708-a6d7-628b90ce29a2)
+
 ---
 
 ### 4. Create an EKS Cluster and Deploy Containers
@@ -102,8 +104,9 @@ An **EKS cluster** is created to host the Kubernetes workloads. Application cont
 ![image](https://github.com/user-attachments/assets/fbf7e79f-1660-4c5d-8db1-8d01d4f4d171)
 
 ---
-### 5. Configure IAM Role and Add IAM OIDC Provider
-For secure communication and access, an **IAM role** is created and associated with the EKS cluster. An **IAM OIDC provider** is also added to allow fine-grained permissions for Kubernetes workloads.
+### 5. Configure IAM Role, Add IAM OIDC Provider and Install AWS Load Balancer:-
+
+For secure communication and access, an **IAM role** is created and associated with the EKS cluster. An **IAM OIDC provider** is also added to allow fine-grained permissions for Kubernetes workloads.And also install AWS Load balancer
 
   ```bash
     # Enable IAM OIDC Provider
@@ -117,7 +120,7 @@ For secure communication and access, an **IAM role** is created and associated w
         --policy-name AWSLoadBalancerControllerIAMPolicy \
         --policy-document file://iam_policy.json
     
-    # Create and associate role
+    # Install AWS Load Balancer
     eksctl create iamserviceaccount \
       --cluster=<your-cluster-name> \
       --namespace=kube-system \
@@ -129,7 +132,7 @@ For secure communication and access, an **IAM role** is created and associated w
 ```
 ---
 
-### 6. Install and Deploy the AWS Load Balancer Controller
+### 6. Deploy the AWS Load Balancer Controller
 The **AWS Load Balancer Controller** is installed to manage and provision AWS load balancers (e.g., ALB/NLB) for the application. This ensures smooth and scalable routing of external traffic to the application.
 
   ```bash
@@ -146,6 +149,6 @@ The **AWS Load Balancer Controller** is installed to manage and provision AWS lo
     kubectl get ing -n <name-space>
 
  ```
-![image](https://github.com/user-attachments/assets/c67638ab-8437-477f-9e9f-3ca6bca6ae0c)
+![image](https://github.com/user-attachments/assets/67c77f1b-f658-49d7-abec-83ce5e84f21d)
 
 ---
