@@ -1,4 +1,4 @@
-# Deploying a Scalable Three-Tier Application on AWS EKS
+# Deploying a Three-Tier Application on AWS EKS
 
 This project demonstrates the deployment of a **scalable Three-Tier Application** architecture (Web, Application, and Database layers) on **Amazon Elastic Kubernetes Service (EKS)**. The guide includes setting up infrastructure, managing permissions, containerizing applications, and deploying workloads in a robust, scalable environment.
 
