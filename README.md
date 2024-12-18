@@ -5,6 +5,8 @@ Developed and deployed a scalable three-tier application architecture on AWS Ela
 
 ---
 
+![image](https://github.com/user-attachments/assets/10ae803b-d9c7-4921-bbc8-46bbbbb429a8)
+
 ## Project Overview
 
 In a three-tier architecture, the application is logically split into three components:
