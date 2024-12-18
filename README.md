@@ -61,7 +61,9 @@ The following tools are installed to facilitate interactions with AWS services a
 ---
 
 ### 3. Build and Push the Docker Image into Elastic Container Registry (ECR)
-Application components are containerized into Docker images. These images are pushed to **AWS Elastic Container Registry (ECR)**, a managed Docker image repository service.Build and Push your Docker Image for both Frontend and Backend
+Application components are containerized into Docker images. These images are pushed to **AWS Elastic Container Registry (ECR)**, a managed Docker image repository service.This step ensures that both frontend and backend components of the application are pushed to AWS ECR.
+
+
 
   ```bash
   # Authenticate Docker with ECR
@@ -106,7 +108,7 @@ An **EKS cluster** is created to host the Kubernetes workloads. Application cont
 ---
 ### 5. Configure IAM Role, Add IAM OIDC Provider and Install AWS Load Balancer
 
-For secure communication and access, an **IAM role** is created and associated with the EKS cluster. An **IAM OIDC provider** is also added to allow fine-grained permissions for Kubernetes workloads.And also install AWS Load balancer
+To secure access, an IAM role is created and associated with the EKS cluster. The IAM OIDC provider is used for fine-grained permissions for Kubernetes workloads. Additionally, the AWS Load Balancer Controller is installed to provision and manage the load balancers for routing traffic. Here are the commands to configure IAM and install the load balancer.
 
   ```bash
     # Enable IAM OIDC Provider
@@ -133,7 +135,7 @@ For secure communication and access, an **IAM role** is created and associated w
 ---
 
 ### 6. Deploy the AWS Load Balancer Controller
-The **AWS Load Balancer Controller** is installed to manage and provision AWS load balancers (e.g., ALB/NLB) for the application. This ensures smooth and scalable routing of external traffic to the application.
+The AWS Load Balancer Controller is deployed to manage and provision load balancers like ALB/NLB. This ensures seamless traffic routing to the frontend and backend components, maintaining high availability.
 
   ```bash
     # Deploy AWS Load Balancer Controller
