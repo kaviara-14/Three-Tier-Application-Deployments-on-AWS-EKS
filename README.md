@@ -30,7 +30,7 @@ The following tools are installed to facilitate interactions with AWS services a
 - **Docker**: For containerizing application components.
 - **kubectl**: For managing Kubernetes workloads.
 
-  ```bash
+```bash
   # Install AWS CLI
   curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
   sudo apt install unzip
