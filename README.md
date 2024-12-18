@@ -101,7 +101,7 @@ An **EKS cluster** is created to host the Kubernetes workloads. Application cont
     # For Database create secrets before entering the above commands
     kubectl create secrets <secret-name>
   ```
-![image](https://github.com/user-attachments/assets/f75d4372-3f37-468f-9f80-9f2cb94ea257)
+![image](https://github.com/user-attachments/assets/2dc431b8-2a2c-4d94-9017-ce0aa318c90b)
 
 ---
 ### 5. Configure IAM Role, Add IAM OIDC Provider and Install AWS Load Balancer
