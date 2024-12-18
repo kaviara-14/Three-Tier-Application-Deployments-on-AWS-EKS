@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: alb
   rules:
-    - host: backend.kaviarasu.study
+    - host: testapp.clocknock.com
       http:
         paths:
           - path: /api
