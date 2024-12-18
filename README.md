@@ -92,9 +92,11 @@ An **EKS cluster** is created to host the Kubernetes workloads. Application cont
     #Configure `kubectl` for the Cluster
     aws eks update-kubeconfig --region us-west-2 --name three-tier-cluster
     kubectl get nodes
-    
-    # Deploy the Frontend, backend and database Application
+
+    #Create namespace
     kubectl create namespace <name-space name>
+
+    # Deploy the Frontend, backend and database Yaml Application into EKS Cluster
     kubectl apply -f <yaml-file name>
     kubectl get deployment -n <name-space name>
     kubectl get svc -n <name-space name>
@@ -125,7 +127,7 @@ To secure access, an IAM role is created and associated with the EKS cluster. Th
     # Install AWS Load Balancer
     eksctl create iamserviceaccount \
       --cluster=<your-cluster-name> \
-      --namespace=kube-system \
+      --namespace=<name-space>\
       --name=aws-load-balancer-controller \
       --role-name AmazonEKSLoadBalancerControllerRole \
       --attach-policy-arn=arn:aws:iam::<your-aws-account-id>:policy/AWSLoadBalancerControllerIAMPolicy \
@@ -143,11 +145,11 @@ The AWS Load Balancer Controller is deployed to manage and provision load balanc
     sudo snap install helm --classic
     helm repo add eks https://aws.github.io/eks-charts
     helm repo update eks
-    helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=my-cluster --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller
-    kubectl get deployment -n kube-system aws-load-balancer-controller
+    helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n <name-space> --set clusterName=my-cluster --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller
+    kubectl get deployment -n <name-space> aws-load-balancer-controller
     
     # Use this command for setting Routing for ALB Controller
-    kubectl apply -f full_stack_lb.yaml
+    kubectl apply -f ingress.yaml
     kubectl get ing -n <name-space>
 
  ```
