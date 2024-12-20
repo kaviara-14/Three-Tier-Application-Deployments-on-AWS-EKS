@@ -7,7 +7,7 @@
 - Configured AWS Load Balancer Controller for efficient traffic management via ALB/NLB, ensuring high availability and fault tolerance.
 - Automated infrastructure setup with AWS CLI and helm, implementing best practices for scalability and security.
   
-![image](https://github.com/user-attachments/assets/c7c10804-a34c-4bd7-a2f6-771879263761)
+![image](https://github.com/user-attachments/assets/38ec4ed7-35e4-4d00-8a28-14a40b248966)
 
 ---
 
@@ -66,10 +66,6 @@ The following tools are installed to facilitate interactions with AWS services a
 ---
 
 ### 3. Build and Push the Docker Image into Elastic Container Registry (ECR)
-Application components are containerized into Docker images. These images are pushed to **AWS Elastic Container Registry (ECR)**, a managed Docker image repository service.This step ensures that both frontend and backend components of the application are pushed to AWS ECR.
-
-
-
   ```bash
   # Authenticate Docker with ECR
   aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <account-id>.dkr.ecr.<region>.amazonaws.com
@@ -87,8 +83,7 @@ Application components are containerized into Docker images. These images are pu
 
 ---
 
-### 4. Create an EKS Cluster and Deploy Containers
-An **EKS cluster** is created to host the Kubernetes workloads. Application containers are deployed within the cluster using **Kubernetes manifests** to manage Pods, Services, and Deployments.Before deploying the containers into EKS, create a namespace and give the public ECR URI Id for both backend and frontend that we created previously and after that use kubectl apply command to create deplyment and service.
+### 4. Install and Configure Kubernetes(EKS Cluster)
 
   ```bash
     # Create the EKS Cluster
@@ -101,35 +96,41 @@ An **EKS cluster** is created to host the Kubernetes workloads. Application cont
     #Create namespace
     kubectl create namespace <name-space name>
 
-    # Deploy the Frontend, backend and database Yaml Application into EKS Cluster
+    # Creating Deployment and Services for frontend and backend
     kubectl apply -f <yaml-file name>
     kubectl get deployment -n <name-space name>
     kubectl get svc -n <name-space name>
     kubectl get pods -n <name-space name>
     
-    # For Database create secrets before entering the above commands
-    kubectl create secrets <secret-name>
+    # For Database Goto mongo directory in K8s manifest path and deployment the apps
+    cd mongo
+    kubectl apply -f .
+    kubectl get all
   ```
+
+To access the application we need to configure below:
+- We need to configure ALB (Application Load Balancer) to allow external traffic into AWS EKS Cluster.
+- **Ingress*** to enable internal routing between all three tiers within the cluster.
+  
 ![image](https://github.com/user-attachments/assets/2dc431b8-2a2c-4d94-9017-ce0aa318c90b)
 
 ---
-### 5. Configure IAM Role, Add IAM OIDC Provider and Install AWS Load Balancer
-
-To secure access, an IAM role is created and associated with the EKS cluster. The IAM OIDC provider is used for fine-grained permissions for Kubernetes workloads. Additionally, the AWS Load Balancer Controller is installed to provision and manage the load balancers for routing traffic. Here are the commands to configure IAM and install the load balancer.
+### 5. Create a Service Account 
 
   ```bash
-    # Enable IAM OIDC Provider
-    eksctl utils associate-iam-oidc-provider --region <region> --cluster <cluster-name> --approve
-    
+      
     # Download the IAM Policy
     curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/install/iam_policy.json
     
-    # Create IAM Policy
+    # This command creates the iam policy in your AWS account from the iam_policy.json file 
     aws iam create-policy \
         --policy-name AWSLoadBalancerControllerIAMPolicy \
         --policy-document file://iam_policy.json
     
-    # Install AWS Load Balancer
+    # This command applies the load balancer policy to your eks cluster so that your eks cluster is working with your load balancer according to the policy.
+    eksctl utils associate-iam-oidc-provider --region <region> --cluster <cluster-name> --approve
+  
+    # Creates a service account in an EKS cluster with specific IAM permissions.
     eksctl create iamserviceaccount \
       --cluster=<your-cluster-name> \
       --namespace=<name-space>\
@@ -141,19 +142,19 @@ To secure access, an IAM role is created and associated with the EKS cluster. Th
 ```
 ---
 
-### 6. Deploy the AWS Load Balancer Controller
-The AWS Load Balancer Controller is deployed to manage and provision load balancers like ALB/NLB. This ensures seamless traffic routing to the frontend and backend components, maintaining high availability.
+### 6. Setting up Application Load Balancer (ALB) and Ingress controller
 
   ```bash
-    # Deploy AWS Load Balancer Controller
-    
+    # Deploy the Load Balancer Controller, using Helm. Helm is a package manager for Kubernetes that simplifies deploying and managing applications on a Kubernetes cluster
     sudo snap install helm --classic
     helm repo add eks https://aws.github.io/eks-charts
     helm repo update eks
+
+    # Install and configure load balancer and Ingress controller on EKS cluster
     helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n <name-space> --set clusterName=my-cluster --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller
     kubectl get deployment -n <name-space> aws-load-balancer-controller
     
-    # Use this command for setting Routing for ALB Controller
+    # Now setup ingress for internal routing
     kubectl apply -f ingress.yaml
     kubectl get ing -n <name-space>
 
