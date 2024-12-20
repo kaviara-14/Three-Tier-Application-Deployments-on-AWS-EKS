@@ -102,16 +102,12 @@ The following tools are installed to facilitate interactions with AWS services a
     kubectl get svc -n <name-space name>
     kubectl get pods -n <name-space name>
     
-    # For Database Goto mongo directory in K8s manifest path and deployment the apps
-    cd mongo
+    # For Database Goto Database directory in K8s manifest path and deployment the apps
+    cd Database
     kubectl apply -f .
     kubectl get all
   ```
 
-To access the application we need to configure below:
-- We need to configure ALB (Application Load Balancer) to allow external traffic into AWS EKS Cluster.
-- **Ingress*** to enable internal routing between all three tiers within the cluster.
-  
 ![image](https://github.com/user-attachments/assets/2dc431b8-2a2c-4d94-9017-ce0aa318c90b)
 
 ---
@@ -144,7 +140,11 @@ To access the application we need to configure below:
 
 ### 6. Setting up Application Load Balancer (ALB) and Ingress controller
 
-  ```bash
+To access the application we need to configure below:
+- We need to configure ALB (Application Load Balancer) to allow external traffic into AWS EKS Cluster.
+- ***Ingress*** to enable internal routing between all three tiers within the cluster.
+  
+``` bash
     # Deploy the Load Balancer Controller, using Helm. Helm is a package manager for Kubernetes that simplifies deploying and managing applications on a Kubernetes cluster
     sudo snap install helm --classic
     helm repo add eks https://aws.github.io/eks-charts
@@ -157,8 +157,9 @@ To access the application we need to configure below:
     # Now setup ingress for internal routing
     kubectl apply -f ingress.yaml
     kubectl get ing -n <name-space>
+```
+ 
 
- ```
 ![image](https://github.com/user-attachments/assets/67c77f1b-f658-49d7-abec-83ce5e84f21d)
 ![image](https://github.com/user-attachments/assets/a74cfdc8-5f75-420d-8caf-471390215ee5)
 
