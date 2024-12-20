@@ -86,7 +86,7 @@ The following tools are installed to facilitate interactions with AWS services a
 ### 4. Install and Configure Kubernetes(EKS Cluster)
 
   ```bash
-    # Create the EKS Cluster
+    # Run the following command to setup EKS cluster
     eksctl create cluster --name three-tier-cluster --region us-west-2 --node-type t2.medium --nodes-min 2 --nodes-max 2
     
     #Configure `kubectl` for the Cluster
@@ -115,7 +115,7 @@ The following tools are installed to facilitate interactions with AWS services a
 
   ```bash
       
-    # Download the IAM Policy
+    # Below command fetch the iam policy for your ALB
     curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/install/iam_policy.json
     
     # This command creates the iam policy in your AWS account from the iam_policy.json file 
@@ -123,10 +123,10 @@ The following tools are installed to facilitate interactions with AWS services a
         --policy-name AWSLoadBalancerControllerIAMPolicy \
         --policy-document file://iam_policy.json
     
-    # This command applies the load balancer policy to your eks cluster so that your eks cluster is working with your load balancer according to the policy.
+    # This command apply the load balancer policy to your eks cluster so that your eks cluster is working with your load balancer according to the policy
     eksctl utils associate-iam-oidc-provider --region <region> --cluster <cluster-name> --approve
   
-    # Creates a service account in an EKS cluster with specific IAM permissions.
+    # This command create and attach an service account to your cluster so that your cluster is allowed to work with load balancer service.
     eksctl create iamserviceaccount \
       --cluster=<your-cluster-name> \
       --namespace=<name-space>\
@@ -150,7 +150,7 @@ To access the application we need to configure below:
     helm repo add eks https://aws.github.io/eks-charts
     helm repo update eks
 
-    # Install and configure load balancer and Ingress controller on EKS cluster
+    # Install the load balancer controller on your eks cluster
     helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n <name-space> --set clusterName=my-cluster --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller
     kubectl get deployment -n <name-space> aws-load-balancer-controller
     
