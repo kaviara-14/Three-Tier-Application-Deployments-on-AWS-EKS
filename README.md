@@ -27,12 +27,12 @@ Using **AWS EKS**, this architecture is containerized for scalability, high avai
 
 
 ### 1. Create and Connect to an EC2 Instance
-To interact with AWS services, set up and Launch an EC2 instance that acts as your control plane.
+Start by setting up an EC2 instance that will serve as your control plane for managing the EKS cluster.
 
 ---
 
 ### 2. Install Required Tools in EC2 Instance
-The following tools are installed to facilitate interactions with AWS services and Kubernetes clusters, Install all this on an EC2 Instance
+The following tools are installed to facilitate interactions with AWS services and Kubernetes clusters, Install all this on your EC2 Instance
 - **AWS CLI**: For interacting with AWS resources.
 - **eksctl**: Simplifies EKS cluster creation and management.
 - **Docker**: For containerizing application components.
@@ -66,6 +66,7 @@ The following tools are installed to facilitate interactions with AWS services a
 ---
 
 ### 3. Build and Push the Docker Image into Elastic Container Registry (ECR)
+Authenticate Docker with your AWS ECR and push the both Frontend and Backend image.
   ```bash
   # Authenticate Docker with ECR
   aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <account-id>.dkr.ecr.<region>.amazonaws.com
@@ -84,6 +85,7 @@ The following tools are installed to facilitate interactions with AWS services a
 ---
 
 ### 4. Install and Configure Kubernetes(EKS Cluster)
+Set up the EKS cluster using eksctl and configure kubectl.
 
   ```bash
     # Run the following command to setup EKS cluster
@@ -112,6 +114,7 @@ The following tools are installed to facilitate interactions with AWS services a
 
 ---
 ### 5. Create a Service Account 
+Create an IAM policy and associate it with a service account for the AWS Load Balancer Controller.
 
   ```bash
       
@@ -139,8 +142,7 @@ The following tools are installed to facilitate interactions with AWS services a
 ---
 
 ### 6. Setting up Application Load Balancer (ALB) and Ingress controller
-
-To access the application we need to configure below:
+Use Helm to deploy the AWS Load Balancer Controller.To access the application we need to configure below,
 - We need to configure ALB (Application Load Balancer) to allow external traffic into AWS EKS Cluster.
 - ***Ingress*** to enable internal routing between all three tiers within the cluster.
   
